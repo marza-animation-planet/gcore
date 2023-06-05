@@ -46,10 +46,18 @@ SOFTWARE.
 
 #include <Python.h>
 
-#ifndef _WIN32
-#  undef  PyMODINIT_FUNC
-#  define PyMODINIT_FUNC extern "C" __attribute__ ((visibility("default"))) void
+#if PY_MAJOR_VERSION < 3
+    #ifndef _WIN32
+        #undef  PyMODINIT_FUNC
+        #define PyMODINIT_FUNC extern "C" __attribute__ ((visibility("default"))) void
+    #endif
+#else
+    #ifndef _WIN32
+        #undef  PyMODINIT_FUNC
+        #define PyMODINIT_FUNC extern "C" __attribute__ ((visibility("default"))) PyObject*
+    #endif
 #endif
+
 
 #endif
 
