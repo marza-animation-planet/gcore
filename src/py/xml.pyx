@@ -28,7 +28,7 @@ from libcpp.map cimport map
 from cython.operator cimport dereference as deref
 from cython.operator cimport preincrement as pinc
 
-ctypedef public class XMLElement [object PyXMLElement, type PyXMLElementType]:
+cdef class XMLElement:
    cdef gcore.XMLElement *_cobj
    cdef bint _own
 
@@ -126,9 +126,13 @@ ctypedef public class XMLElement [object PyXMLElement, type PyXMLElementType]:
    def text(self):
       return self._cobj.text().c_str()
 
-   property tag:
-      def __get__(self): return self._cobj.tag().c_str()
-      def __set__(self, v): self._cobj.setTag(gcore.String(<char*?>v))
+   @property
+   def tag(self):
+      return self._cobj.tag().c_str()
+   
+   @tag.setter
+   def tag(self, v): 
+      self._cobj.setTag(gcore.String(<char*?>v))
    
    def hasChildWithTag(self, t):
       return self._cobj.hasChildWithTag(gcore.String(<char*?>t))
@@ -168,7 +172,7 @@ cdef SetXMLElementPtr(XMLElement py, gcore.XMLElement* c, own):
    py._own = own
 
 
-ctypedef public class XMLDoc [object PyXMLDoc, type PyXMLDocType]:
+cdef class XMLDoc:
    cdef gcore.XMLDoc *_cobj
    cdef bint _own
 

@@ -28,7 +28,7 @@ from cython.operator cimport dereference as deref
 from libc.stdlib cimport malloc, free
 from libcpp.vector cimport vector
 
-ctypedef public class FlagDesc [object PyFlagDesc, type PyFlagDescType]:
+cdef class FlagDesc:
    cdef gcore.FlagDesc *_cobj
    cdef bint _own
 
@@ -61,24 +61,36 @@ ctypedef public class FlagDesc [object PyFlagDesc, type PyFlagDescType]:
          del self._cobj
          self._cobj = NULL
 
-   property opts:
-      def __get__(self): return self._cobj.opts
-      def __set__(self, v): self._cobj.opts = <gcore.Option>v
+   @property
+   def opts(self):
+      return self._cobj.opts
 
-   property longname:
-      def __get__(self): return self._cobj.longname.c_str()
-      def __set__(self, v): self._cobj.longname = gcore.String(<char*>v)
+   @opts.setter
+   def opts(self, v): self._cobj.opts = <gcore.Option>v
 
-   property shortname:
-      def __get__(self): return self._cobj.shortname.c_str()
-      def __set__(self, v): self._cobj.shortname = gcore.String(<char*>v)
+   @property
+   def longname(self):
+      return self._cobj.longname.c_str()
 
-   property arity:
-      def __get__(self): return self._cobj.arity
-      def __set__(self, v): self._cobj.arity = v
+   @longname.setter
+   def longname(self, v): self._cobj.longname = gcore.String(<char*>v)
+
+   @property
+   def shortname(self):
+      return self._cobj.shortname.c_str()
+
+   @shortname.setter
+   def shortname(self, v): self._cobj.shortname = gcore.String(<char*>v)
+
+   @property
+   def arity(self):
+      return self._cobj.arity
+   
+   @arity.setter
+   def arity(self, v): self._cobj.arity = v
 
 
-ctypedef public class ArgParser [object PyArgParser, type PyArgParserType]:
+cdef class ArgParser:
    cdef gcore.ArgParser *_cobj
    cdef bint _own
    

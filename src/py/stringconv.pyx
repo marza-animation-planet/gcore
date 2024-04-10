@@ -44,13 +44,6 @@ cdef _to_cstring(ps, gcore.String &cs):
       _ps = _ps.encode("utf-8")
       cs.assign(gcore.String(<char*?>ps))
    
-cdef _to_pystring(gcore.String &cs, asUnicode=False):
+cdef _to_pystring(gcore.String &cs):
    cdef gcore.String _tmp
-   u = unicode(cs.c_str(), "utf-8")
-   try:
-      return u.encode("ascii")
-   except:
-      if asUnicode:
-         return u
-      else:
-         return u.encode(sys.getfilesystemencoding())
+   return str(cs.c_str())

@@ -27,7 +27,7 @@ cimport gcore
 from cython.operator cimport dereference as deref
 #from cython.operator cimport reference as ref
 
-ctypedef public class PerfLog [object PyPerfLog, type PyPerfLogType]:
+cdef PerfLog:
    cdef gcore.PerfLog *_cobj
    cdef bint _own
    

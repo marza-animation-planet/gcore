@@ -85,7 +85,7 @@ class EnvDict(dict):
       return dict.__getitem__(self, self.Key(key))
 
 
-ctypedef public class Env [object PyEnv, type PyEnvType]:
+cdef class Env:
    cdef gcore.Env *_cobj
    cdef bint _own
 
@@ -122,7 +122,7 @@ ctypedef public class Env [object PyEnv, type PyEnvType]:
       cdef gcore.String _val
       _to_cstring(key, _key)
       _val = self._cobj.get(_key)
-      return _to_pystring(_val, asUnicode=False)
+      return _to_pystring(_val)
    
    def set(self, *args):
       cdef map[gcore.String, gcore.String, gcore.KeyCompare] cd
@@ -164,7 +164,7 @@ ctypedef public class Env [object PyEnv, type PyEnvType]:
       while it != cd.end():
          _key = deref(it).first
          _val = deref(it).second
-         rv[_to_pystring(_key, asUnicode=False)] = _to_pystring(_val, asUnicode=False)
+         rv[_to_pystring(_key)] = _to_pystring(_val)
          pinc(it)
       return rv
    
@@ -188,7 +188,7 @@ ctypedef public class Env [object PyEnv, type PyEnvType]:
       cdef gcore.String _val
       _to_cstring(key, _key)
       _val = gcore.Get(_key)
-      return _to_pystring(_val, asUnicode=False)
+      return _to_pystring(_val)
    
    @classmethod
    def Set(klass, *args):
@@ -233,7 +233,7 @@ ctypedef public class Env [object PyEnv, type PyEnvType]:
       it = pl.begin()
       while it != pl.end():
          _val = deref(it).fullname(b'/')
-         rv.append(_to_pystring(_val, asUnicode=True))
+         rv.append(_to_pystring(_val))
          pinc(it)
       return rv
    

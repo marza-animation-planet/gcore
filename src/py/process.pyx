@@ -27,7 +27,7 @@ cimport gcore
 from cython.operator cimport dereference as deref
 import sys
 
-ctypedef public class Process [object PyProcess, type PyProcessType]:
+cdef class Process:
    cdef gcore.Process *_cobj
    cdef bint _own
    
@@ -69,7 +69,7 @@ ctypedef public class Process [object PyProcess, type PyProcessType]:
             setattr(self, k, v)
       
       t = type(cmdOrArgs)
-      if t in (str, unicode):
+      if isinstance(cmdOrArgs, str):
          st = self._cobj.run(gcore.String(<char*?>cmdOrArgs))
       elif t in (tuple, list):
          for item in cmdOrArgs:
@@ -169,27 +169,45 @@ ctypedef public class Process [object PyProcess, type PyProcessType]:
    def cmdLine(self):
       return self._cobj.cmdLine().c_str()
    
-   property redirectOut:
-      def __get__(self): return self._cobj.redirectOut()
-      def __set__(self, v): self._cobj.setRedirectOut(<bint?>v)
+   @property
+   def redirectOut(self):
+      return self._cobj.redirectOut()
+
+   @redirectOut.setter
+   def redirectOut(self, v): self._cobj.setRedirectOut(<bint?>v)
    
-   property redirectErr:
-      def __get__(self): return self._cobj.redirectErr()
-      def __set__(self, v): self._cobj.setRedirectErr(<bint?>v)
+   @property
+   def redirectErr(self):
+      return self._cobj.redirectErr()
+
+   @redirectErr.setter
+   def redirectErr(self, v): self._cobj.setRedirectErr(<bint?>v)
    
-   property redirectErrToOut:
-      def __get__(self): return self._cobj.redirectErrToOut()
-      def __set__(self, v): self._cobj.setRedirectErrToOut(<bint?>v)
+   @property
+   def redirectErrToOut(self):
+      return self._cobj.redirectErrToOut()
+
+   @redirectErrToOut.setter
+   def redirectErrToOut(self, v): self._cobj.setRedirectErrToOut(<bint?>v)
    
-   property redirectIn:
-      def __get__(self): return self._cobj.redirectIn()
-      def __set__(self, v): self._cobj.setRedirectIn(<bint?>v)
+   @property
+   def redirectIn(self):
+      return self._cobj.redirectIn()
    
-   property showConsole:
-      def __get__(self): return self._cobj.showConsole()
-      def __set__(self, v): self._cobj.setShowConsole(<bint?>v)
+   @redirectIn.setter
+   def redirectIn(self, v): self._cobj.setRedirectIn(<bint?>v)
    
-   property keepAlive:
-      def __get__(self): return self._cobj.keepAlive()
-      def __set__(self, v): self._cobj.setKeepAlive(<bint?>v)
+   @property
+   def showConsole(self):
+      return self._cobj.showConsole()
+
+   @showConsole.setter
+   def showConsole(self, v): self._cobj.setShowConsole(<bint?>v)
+   
+   @property
+   def keepAlive(self):
+      return self._cobj.keepAlive()
+
+   @keepAlive.setter
+   def keepAlive(self, v): self._cobj.setKeepAlive(<bint?>v)
    

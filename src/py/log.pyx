@@ -22,6 +22,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# cython: c_string_type=unicode, c_string_encoding=utf8
+
 
 cimport gcore
 from cython.operator import dereference as deref
@@ -33,7 +35,7 @@ LOG_DEBUG = gcore.LOG_DEBUG
 LOG_INFO = gcore.LOG_INFO
 LOG_ALL = gcore.LOG_ALL
 
-ctypedef public class Log [object PyLog, type PyLogType]:
+cdef class Log:
    cdef gcore.Log *_cobj
    cdef gcore.LogOutputFunc *_outfunc
    cdef bint _own
@@ -104,7 +106,7 @@ ctypedef public class Log [object PyLog, type PyLogType]:
    
    @classmethod
    def SetOutputFunc(klass, outputFunc):
-      gcore.PyLog_SetOutputFunc(<gcore.PyObject*>outputFunc)
+      gcore.Log_SetOutputFunc(<gcore.PyObject*>outputFunc)
    
    
    def __cinit__(self, *args, **kwargs):
@@ -126,7 +128,7 @@ ctypedef public class Log [object PyLog, type PyLogType]:
             self._cobj = new gcore.Log(deref((<Path>args[0])._cobj))
          elif isinstance(args[0], Log):
             self._cobj = new gcore.Log(deref((<Log>args[0])._cobj))
-         elif type(args[0]) in [str, unicode]:
+         elif isinstance(args[0], str):
             self._cobj = new gcore.Log(gcore.Path(<char*>args[0]))
          else:
             raise Exception("_gcore.Log() invalid argument type %s" % type(str))
@@ -156,17 +158,24 @@ ctypedef public class Log [object PyLog, type PyLogType]:
    def printInfo(self, msg):
       self._cobj.printInfo(<char*?>msg)
    
-   property levelMask:
-      def __get__(self): return self._cobj.levelMask()
+   @property
+   def levelMask(self):
+      return self._cobj.levelMask()
       def __set__(self, v): self._cobj.setLevelMask(<unsigned int>v)
    
-   property indentLevel:
-      def __get__(self): return self._cobj.indentLevel()
-      def __set__(self, v): self._cobj.setIndentLevel(<unsigned int>v)
+   @property
+   def indentLevel(self):
+      return self._cobj.indentLevel()
+
+   @indentLevel.setter
+   def indentLevel(self, v): self._cobj.setIndentLevel(<unsigned int>v)
    
-   property indentWidth:
-      def __get__(self): return self._cobj.indentWidth()
-      def __set__(self, v): self._cobj.setIndentWidth(<unsigned int>v)
+   @property
+   def indentWidth(self):
+      return self._cobj.indentWidth()
+
+   @indentWidth.setter
+   def indentWidth(self, v): self._cobj.setIndentWidth(<unsigned int>v)
    
    def indent(self):
       self._cobj.indent()
@@ -174,13 +183,19 @@ ctypedef public class Log [object PyLog, type PyLogType]:
    def unIndent(self):
       self._cobj.unIndent()
    
-   property colorOutput:
-      def __get__(self): return self._cobj.colorOutput()
-      def __set__(self, v): self._cobj.setColorOutput(<bint>v)
+   @property
+   def colorOutput(self):
+      return self._cobj.colorOutput()
    
-   property showTimeStamps:
-      def __get__(self): return self._cobj.showTimeStamps()
-      def __set__(self, v): self._cobj.setShowTimeStamps(<bint>v)
+   @colorOutput.setter
+   def colorOutput(self, v): self._cobj.setColorOutput(<bint>v)
+   
+   @property
+   def showTimeStamps(self):
+      return self._cobj.showTimeStamps()
+
+   @showTimeStamps.setter
+   def showTimeStamps(self, v): self._cobj.setShowTimeStamps(<bint>v)
    
    def setOutputFunc(self, func):
       if func is None:

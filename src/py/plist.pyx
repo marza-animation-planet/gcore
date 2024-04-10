@@ -26,7 +26,7 @@
 cimport gcore
 
 
-ctypedef public class PropertyList [object PyPropertyList, type PyPropertyListType]:
+cdef class PropertyList:
    cdef gcore.PropertyList *_cobj
    cdef bint _own
 
