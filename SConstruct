@@ -37,6 +37,7 @@ import SCons.Script # pylint: disable=import-error
 
 excons.InitGlobals()
 
+with_includes = not excons.GetArgument("without-includes", "")
 static = excons.GetArgument("static", 0, int)
 debugext = excons.GetArgument("debug-extra", 0, int)
 debugrex = excons.GetArgument("debug-rex", 0, int)
@@ -85,7 +86,8 @@ prjs = [
       "soname"       : "libgcore.so.1",
       "install_name" : "libgcore.1.dylib",
       "srcs"         : glob.glob("src/lib/*.cpp") + glob.glob("src/lib/rex/*.cpp"),
-      "install"      : {"include": ["include/gcore", "include/half.h"]},
+      "incdirs"      : ["include"],
+      "install"      : {"include": ["include/gcore", "include/half.h"]} if with_includes else {},
       "defs"         : libdefs,
       "custom"       : libcustom,
       "libs"         : liblibs
@@ -98,6 +100,7 @@ prjs = [
       "ext"       : python.ModuleExtension(),
       "bldprefix" : python.Version(),
       "srcs"      : ["src/py/_gcore.cpp", "src/py/log.cpp", "src/py/pathenumerator.cpp"],
+      "incdirs"   : ["include"],
       "deps"      : ["gcore"],
       "custom"    : [RequireGcore, python.SoftRequire, python.SilentCythonWarnings],
       "install"   : {python.ModulePrefix(): ["src/py/gcore.py", "src/py/tests"]}
@@ -105,17 +108,20 @@ prjs = [
    {  "name"   : "gcore_utils",
       "type"   : "testprograms",
       "srcs"   : glob.glob("src/bin/*.cpp"),
+      "incdirs": ["include"],
       "deps"   : ["gcore"],
       "custom" : [RequireGcore]
    },
    {  "name"    : "testmodule",
       "type"    : "dynamicmodule",
       "prefix"  : "bin",
-      "srcs"    : ["src/tests/modules/module.cpp"]
+      "srcs"    : ["src/tests/modules/module.cpp"],
+      "incdirs" : ["include"],
    },
    {  "name"    : "gcore_tests",
       "type"    : "testprograms",
       "srcs"    : glob.glob("src/tests/*.cpp"),
+      "incdirs" : ["include"],
       "deps"    : ["gcore", "testmodule"],
       "custom"  : [RequireGcore],
    }
