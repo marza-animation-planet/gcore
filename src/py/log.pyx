@@ -41,71 +41,71 @@ cdef class Log:
    cdef bint _own
    
    @classmethod
-   def SetLevelMask(klass, int mask):
+   def SetLevelMask(cls, int mask):
       gcore.SetLevelMask(mask)
    
    @classmethod
-   def LevelMask(klass):
+   def LevelMask(cls):
       return gcore.LevelMask()
    
    @classmethod
-   def SetIndentLevel(klass, int l):
+   def SetIndentLevel(cls, int l):
       gcore.SetIndentLevel(l)
    
    @classmethod
-   def IndentLevel(klass):
+   def IndentLevel(cls):
       return gcore.IndentLevel()
    
    @classmethod
-   def Indent(klass):
+   def Indent(cls):
       gcore.Indent()
    
    @classmethod
-   def UnIndent(klass):
+   def UnIndent(cls):
       gcore.UnIndent()
    
    @classmethod
-   def SetIndentWidth(klass, int w):
+   def SetIndentWidth(cls, int w):
       gcore.SetIndentWidth(w)
    
    @classmethod
-   def IndentWidth(klass):
+   def IndentWidth(cls):
       return gcore.IndentWidth()
    
    @classmethod
-   def SetColorOutput(klass, bint onoff):
+   def SetColorOutput(cls, bint onoff):
       gcore.SetColorOutput(onoff)
    
    @classmethod
-   def ColorOutput(klass):
+   def ColorOutput(cls):
       return gcore.ColorOutput()
    
    @classmethod
-   def SetShowTimeStamps(klass, bint onoff):
+   def SetShowTimeStamps(cls, bint onoff):
       gcore.SetShowTimeStamps(onoff)
    
    @classmethod
-   def ShowTimeStamps(klass):
+   def ShowTimeStamps(cls):
       return gcore.ShowTimeStamps()
    
    @classmethod
-   def PrintError(klass, char* msg):
+   def PrintError(cls, char* msg):
       gcore.PrintError(msg)
    
    @classmethod
-   def PrintWarning(klass, char* msg):
+   def PrintWarning(cls, char* msg):
       gcore.PrintWarning(msg)
    
    @classmethod
-   def PrintDebug(klass, char* msg):
+   def PrintDebug(cls, char* msg):
       gcore.PrintDebug(msg)
    
    @classmethod
-   def PrintInfo(klass, char* msg):
+   def PrintInfo(cls, char* msg):
       gcore.PrintInfo(msg)
    
    @classmethod
-   def SetOutputFunc(klass, outputFunc):
+   def SetOutputFunc(cls, outputFunc):
       gcore.Log_SetOutputFunc(<gcore.PyObject*>outputFunc)
    
    

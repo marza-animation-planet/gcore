@@ -39,7 +39,7 @@ cdef class Path:
    FE_ALL = gcore.FE_ALL
    
    @classmethod
-   def CurrentDir(klass):
+   def CurrentDir(cls):
       p = Path()
       p._cobj.assign(gcore.CurrentDir())
       return p

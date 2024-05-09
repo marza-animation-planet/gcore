@@ -169,21 +169,21 @@ cdef class Env:
       return rv
    
    @classmethod
-   def Username(klass):
+   def Username(cls):
       return gcore.Username().c_str()
    
    @classmethod
-   def Hostname(klass):
+   def Hostname(cls):
       return gcore.Hostname().c_str()
    
    @classmethod
-   def IsSet(klass, key):
+   def IsSet(cls, key):
       cdef gcore.String _key
       _to_cstring(key, _key)
       return gcore.IsSet(_key)
    
    @classmethod
-   def Get(klass, key):
+   def Get(cls, key):
       cdef gcore.String _key
       cdef gcore.String _val
       _to_cstring(key, _key)
@@ -191,7 +191,7 @@ cdef class Env:
       return _to_pystring(_val)
    
    @classmethod
-   def Set(klass, *args):
+   def Set(cls, *args):
       cdef gcore.String _key
       cdef gcore.String _val
       cdef map[gcore.String, gcore.String, gcore.KeyCompare] cd
@@ -216,13 +216,13 @@ cdef class Env:
          gcore.Set(_key, _val, <bint?>args[2])
    
    @classmethod
-   def Unset(klass, key):
+   def Unset(cls, key):
       cdef gcore.String _key
       _to_cstring(key, _key)
       gcore.Unset(_key)
    
    @classmethod
-   def ListPath(klass, key):
+   def ListPath(cls, key):
       cdef gcore.String _key
       cdef gcore.String _val
       cdef gcore.List[gcore.Path] pl

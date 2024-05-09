@@ -32,36 +32,36 @@ cdef PerfLog:
    cdef bint _own
    
    @classmethod
-   def Get(klass):
+   def Get(cls):
       rv = PerfLog(noalloc=True)
       SetPerfLogPtr(rv, &(gcore.Get()), False)
       return rv
    
    @classmethod
-   def Begin(klass, s):
+   def Begin(cls, s):
       gcore.Begin(gcore.String(<char*?>s))
    
    @classmethod
-   def End(klass):
+   def End(cls):
       gcore.End()
    
    @classmethod
-   def Print(klass, log=None, output=gcore.ConsoleOutput, flags=gcore.ShowDefaults, sortBy=gcore.SortFuncTime, units=gcore.CurrentUnits):
+   def Print(cls, log=None, output=gcore.ConsoleOutput, flags=gcore.ShowDefaults, sortBy=gcore.SortFuncTime, units=gcore.CurrentUnits):
       if log is None:
          gcore.Print(<gcore.Output>output, <int>flags, <int>sortBy, <gcore.Units>units)
       else:
          gcore.Print(deref((<Log?>log)._cobj), <int>flags, <int>sortBy, <gcore.Units>units)
    
    @classmethod
-   def Clear(klass):
+   def Clear(cls):
       gcore.Clear()
    
    @classmethod
-   def UnitsString(klass, units):
+   def UnitsString(cls, units):
       return gcore.UnitsString(<gcore.Units>units)
    
    @classmethod
-   def ConvertUnits(klass, v, src, dst):
+   def ConvertUnits(cls, v, src, dst):
       return gcore.ConvertUnits(<double?>v, <gcore.Units>src, <gcore.Units>dst)
    
    
