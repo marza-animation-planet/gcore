@@ -27,7 +27,7 @@ SOFTWARE.
 #ifndef __gcorepy_pathenumerator_h__
 #define __gcorepy_pathenumerator_h__
 
-#include "Python.h"
+#include <Python.h>
 #include <gcore/path.h>
 
 class PathEnumerator

@@ -204,7 +204,7 @@ const char* Instruction::matchRemain(const char *cur, MatchInfo &info) const
    Log::PrintDebug("[gcore] rex/Instruction::matchRemain: (%s) \"%s\"", typeid(*this).name(), cur);
 #endif
    
-   register bool failed = false;
+   bool failed = false;
    const char *rv = cur;
    
    if (info.flags & Rex::Reverse)
@@ -325,7 +325,7 @@ const char* Single::match(const char *cur, MatchInfo &info) const
    Log::PrintDebug("[gcore] rex/Single::match: Match single character \'%c\' with \"%s\"... ", mChar, cur);
 #endif
    
-   register bool matched;
+   bool matched;
    
    if (preStep(cur, info))
    {
@@ -393,7 +393,7 @@ const char* UnicodeSingle::match(const char *cur, MatchInfo &info) const
    Log::PrintDebug("[gcore] rex/UnicodeSingle::match: Match single character %x with \"%s\"... ", mCode, cur);
 #endif
    
-   register bool matched;
+   bool matched;
    
    if (preStep(cur, info))
    {
@@ -812,9 +812,9 @@ const char* CharRange::match(const char *cur, MatchInfo &info) const
 #ifdef _DEBUG_REX
    Log::PrintDebug("[gcore] rex/CharRange::match: Match character in range [%c, %c]...", mFrom, mTo);
 #endif
-   register char cc;
-   register int casediff = 0;
-   register bool matched = false;
+   char cc;
+   int casediff = 0;
+   bool matched = false;
    
    if (preStep(cur, info))
    {
@@ -894,10 +894,10 @@ const char* UnicodeCharRange::match(const char *cur, MatchInfo &info) const
 #ifdef _DEBUG_REX
    Log::PrintDebug("[gcore] rex/UnicodeCharRange::match: Match character in range [%x, %x]...", mFrom, mTo);
 #endif
-   register Codepoint c = InvalidCodepoint;
-   register int casediff = 0;
-   register bool matched = false;
-   register char cc = '\0';
+   Codepoint c = InvalidCodepoint;
+   int casediff = 0;
+   bool matched = false;
+   char cc = '\0';
    
    if (preStep(cur, info))
    {
@@ -1083,7 +1083,7 @@ const char* Repeat::match(const char *cur, MatchInfo &info) const
 #ifdef _DEBUG_REX
    Log::PrintDebug("[gcore] rex/Repeat::match: Match repeat...");
 #endif
-   register int count = 0;
+   int count = 0;
    const char *rv = 0;
    
    if (!mInst)
@@ -1444,11 +1444,9 @@ void Group::toStream(std::ostream &os, const String &indent) const
 
 void Group::open(const char *cur, MatchInfo &info) const
 {
-   
-   //register unsigned short flags = mFlags;
    bool originallyReversed = ((info.flags & Rex::Reverse) != 0);
    
-   register unsigned short flags = mFlags;
+   unsigned short flags = mFlags;
    if (originallyReversed)
    {
       // for lookbehind Rex::Reverse flag is alreay set in mFlags
@@ -1515,11 +1513,9 @@ const char* Group::match(const char *cur, MatchInfo &info) const
 #ifdef _DEBUG_REX
    Log::PrintDebug("[gcore] rex/Group::match [%d, '%s']", mIndex, mName.c_str());
 #endif
-   
-   //register unsigned short flags = mFlags;
    bool originallyReversed = ((info.flags & Rex::Reverse) != 0);
    
-   register unsigned short flags = mFlags;
+   unsigned short flags = mFlags;
    if (originallyReversed)
    {
       // for lookbehind Rex::Reverse flag is alreay set in mFlags
@@ -2032,7 +2028,7 @@ const char* LineStart::match(const char *cur, MatchInfo &info) const
 #endif
    // NL: \r, \n or \r\n
    
-   register char c0;
+   char c0;
    
    if (cur <= info.beg)
    {

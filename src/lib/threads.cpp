@@ -556,7 +556,7 @@ void Condition::wait(Mutex &mtx)
 
 bool Condition::timedWait(Mutex &mtx, unsigned long msec)
 {
-   register int rval;
+   int rval;
    
    struct timespec ts;
    struct timeval tv;
@@ -619,7 +619,7 @@ Semaphore::~Semaphore()
 
 void Semaphore::increment(long count)
 {
-   register long i, j;
+   long i, j;
    
    details::sema_t *s = (details::sema_t*)(&mData[0]);
    
@@ -868,7 +868,7 @@ ThreadID Thread::id() const
 
 unsigned int __stdcall Thread::_ThreadEntryFunc(void *data)
 {
-   register int ret = -1;
+   int ret = -1;
    
    Thread *thr = (Thread*)data;
    
@@ -1125,7 +1125,7 @@ ThreadID Thread::id() const
 
 void* Thread::_ThreadEntryFunc(void *data)
 {
-   register int ret = 0;
+   int ret = 0;
    
    Thread *thr = (Thread*)data;
    

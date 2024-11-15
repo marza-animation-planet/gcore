@@ -35,10 +35,8 @@ SOFTWARE.
 #   define _WIN32_WINNT WINVER
 # endif
 # define NOMINMAX
-//# define _WIN32_WINNT 0x0500
 # include <windows.h>
 # include <winsock2.h>
-//# pragma comment(lib, "wsock32.lib")
 # pragma comment(lib, "ws2_32.lib")
 # define NULL_SOCKET INVALID_SOCKET
 # define sock_close closesocket
@@ -74,7 +72,6 @@ typedef int socklen_t;
 # include <dlfcn.h>
 # include <dirent.h>
 # include <pthread.h>
-//# include <semaphore.h>
 # include <sched.h>
 # include <signal.h>
 # define DIR_SEP '/'

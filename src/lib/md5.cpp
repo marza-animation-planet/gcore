@@ -243,7 +243,7 @@ void MD5::update(const char *buf, long len)
 
 void MD5::transform()
 {
-   register unsigned long a, b, c, d;
+   unsigned long a, b, c, d;
    unsigned long in[16];
    
    for (int i=0; i<16; ++i)
