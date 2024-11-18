@@ -289,7 +289,7 @@ cdef extern from "<gcore/env.h>" namespace "gcore::Env":
    void Set(map[String,String,KeyCompare]&, bint)
    void Unset(String&)
    bint IsSet(String&)
-   size_t ListPaths(String&, List[Path]&)
+   size_t ListPaths(List[Path]&, String&)
    
 
 cdef extern from "<gcore/argparser.h>" namespace "gcore::FlagDesc":

@@ -228,7 +228,7 @@ cdef class Env:
       cdef gcore.List[gcore.Path] pl
       cdef gcore.List[gcore.Path].iterator it
       _to_cstring(key, _key)
-      gcore.ListPaths(_key, pl)
+      gcore.ListPaths(pl, _key)
       rv = []
       it = pl.begin()
       while it != pl.end():

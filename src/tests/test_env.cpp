@@ -73,7 +73,7 @@ int main(int, char**)
    
    std::cout << "PATH content... (using PathList)" << std::endl;
    gcore::PathList pl;
-   gcore::Env::ListPaths("PATH", pl);
+   gcore::Env::ListPaths(pl, "PATH");
    std::cout << pl << std::endl;
    
    return 0;

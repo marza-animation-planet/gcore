@@ -62,7 +62,7 @@ namespace gcore
       static void Set(const Dict &d, bool overwrite);
       static bool IsSet(const String &k);
       static void ForEachInPath(const String &e, ForEachInPathFunc callback);
-      static size_t ListPaths(const String &e, PathList &l);
+      static size_t ListPaths(PathList &l, const String &e);
       
    public:
       

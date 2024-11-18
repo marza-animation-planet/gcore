@@ -159,7 +159,7 @@ void Env::ForEachInPath(const String &e, Env::ForEachInPathFunc callback)
    }
 }
 
-size_t Env::ListPaths(const String &e, PathList &l)
+size_t Env::ListPaths(PathList &l, const String &e)
 {
    ForEachInPathFunc func;
    details::PathLister pl(l);
