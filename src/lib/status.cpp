@@ -62,6 +62,10 @@ Status::Status(bool success, int errcode, const char *msg, ...)
    va_end(args);
 }
 
+Status::Status(const std::error_code &ec) {
+   set(bool(ec), ec.value(), ec.message().c_str());
+}
+
 Status::~Status()
 {
 }

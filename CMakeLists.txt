@@ -25,7 +25,7 @@ add_executable(writebom src/bin/writebom.cpp)
 target_link_libraries(readbom gcore)
 target_link_libraries(writebom gcore)
 
-if(${BUILD_SHARED_LIBS})
+if(NOT ${BUILD_SHARED_LIBS})
     target_compile_definitions(gcore PUBLIC GCORE_STATIC)
 endif()
 

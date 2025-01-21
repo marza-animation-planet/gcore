@@ -29,6 +29,7 @@ SOFTWARE.
 
 #include <gcore/config.h>
 #include <gcore/string.h>
+#include <system_error>
 
 namespace gcore
 {
@@ -40,6 +41,7 @@ namespace gcore
       Status(bool success, int errcode);
       Status(bool success, const char *msg, ...);
       Status(bool success, int errcode, const char *msg, ...);
+      Status(const std::error_code &ec);
       ~Status();
       
       Status& operator=(const Status &rhs);
