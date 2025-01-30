@@ -161,7 +161,9 @@ bool Path::isAbsolute() const { return mStdPath.is_absolute(); }
 
 // if path is relative, prepend current directory
 Path &Path::makeAbsolute() {
-    if (!isAbsolute()) {
+    if (mStdPath.empty()) {
+        mStdPath = std::filesystem::current_path();
+    } else if (!isAbsolute()) { 
         mStdPath = std::filesystem::absolute(mStdPath);
     }
     return *this;
@@ -216,7 +218,13 @@ bool Path::isFile() const {
 bool Path::exists() const { return std::filesystem::exists(mStdPath); }
 
 // file extension without .
-String Path::extension() const { return String(mStdPath.extension()); }
+String Path::extension() const { 
+    auto ext = mStdPath.extension().string();
+    if (!ext.empty() && ext[0] == '.') {
+        return String(ext.substr(1)); // Remove the leading dot
+    }
+    return String(ext); 
+}
 
 bool Path::checkExtension(const String &ext) const {
     String pext = extension();
@@ -273,7 +281,6 @@ template <typename Iterator> void Path::forEach(ForEachFunc callback, unsigned s
 
     for (auto const &p : Iterator{target_path}) {
 #ifdef _WIN32
-        // TODO skip hidden
         DWORD attributes = GetFileAttributesW(p.path().c_str());
         if (((flags & FE_HIDDEN) == 0) && ((attributes & FILE_ATTRIBUTE_HIDDEN) != 0)) {
             continue;
@@ -286,7 +293,7 @@ template <typename Iterator> void Path::forEach(ForEachFunc callback, unsigned s
 #endif
         if (p.is_directory() && ((flags & FE_DIRECTORY) == 0))
             continue;
-        else if (!p.is_directory() && ((flags & FE_FILE) != 0))
+        else if (!p.is_directory() && ((flags & FE_FILE) == 0))
             continue;
 
         if (!callback(Path(p.path())))
