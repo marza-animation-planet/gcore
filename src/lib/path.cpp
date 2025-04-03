@@ -208,14 +208,22 @@ Date Path::lastModification() const {
     return lm;
 }
 
-bool Path::isDir() const { return std::filesystem::is_directory(mStdPath); }
+// Original code seems to return false on error and not throw exceptions
+bool Path::isDir() const { 
+    std::error_code ec;
+    return std::filesystem::is_directory(mStdPath, ec);
+}
 
 bool Path::isFile() const {
     // Should it return true for symlinks/block devices/... ?
-    return std::filesystem::is_regular_file(mStdPath);
+    std::error_code ec;
+    return std::filesystem::is_regular_file(mStdPath, ec);
 }
 
-bool Path::exists() const { return std::filesystem::exists(mStdPath); }
+bool Path::exists() const {
+    std::error_code ec;
+    return std::filesystem::exists(mStdPath, ec);
+}
 
 // file extension without .
 String Path::extension() const { 
@@ -285,12 +293,11 @@ template <typename Iterator> void Path::forEach(ForEachFunc callback, unsigned s
         if (((flags & FE_HIDDEN) == 0) && ((attributes & FILE_ATTRIBUTE_HIDDEN) != 0)) {
             continue;
         }
-#else
+#endif
         String fname(p.path().filename());
         if ((flags & FE_HIDDEN) == 0 && fname.startswith(".")) {
             continue;
         }
-#endif
         if (p.is_directory() && ((flags & FE_DIRECTORY) == 0))
             continue;
         else if (!p.is_directory() && ((flags & FE_FILE) == 0))
