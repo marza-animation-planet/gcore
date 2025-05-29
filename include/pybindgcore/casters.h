@@ -18,7 +18,15 @@ template <> struct type_caster<gcore::Path> {
     PYBIND11_TYPE_CASTER(gcore::Path, const_name("str"));
 
     bool load(handle src, bool) {
-        value = gcore::Path(src.cast<gcore::String>());
+        gcore::String tmp;
+        try{
+            tmp = src.cast<gcore::String>();
+        } catch (const cast_error &e) {
+            return false;
+        } catch (std::runtime_error &e){
+            return false;
+        }
+        value = gcore::Path(tmp);
         return true;
     }
 
