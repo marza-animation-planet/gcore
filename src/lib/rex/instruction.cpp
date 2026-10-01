@@ -51,8 +51,8 @@ MatchInfo::MatchInfo(const char *b, const char *e, unsigned short f, size_t ngro
    , end(e)
    , flags(f)
    , once(false)
+   , gmatch(ngroups, std::pair<int, int>(-1, -1))
 {
-   gmatch.resize(ngroups, std::pair<int,int>(-1,-1));
 }
 
 MatchInfo::MatchInfo(const MatchInfo &rhs)
